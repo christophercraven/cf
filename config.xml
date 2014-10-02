@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+    xmlns:gap   = "http://phonegap.com/ns/1.0"
+    id          = "com.crowdfinger.cf"
+    version     = "0.0.1" >
+
+    <!-- versionCode is optional and Android only -->
+
+    <name>Crowdfinger</name>
+
+    <description>
+      Check your favorite crowdfunding campaigns. 
+    </description>
+
+    <author href="https://datavisions.wordpress.com" email="christopherccraven@students.abtech.edu">
+      Christopher Craven 
+    </author>
+
+    <!--
+      This allows your app to load assets from all *.phongap.com domains
+    -->
+    <access origin="http://*.kickstarter.com" />
+</widget>
