@@ -1,0 +1,40 @@
+body {
+	font: 100% Calibri, Helvetica, Arial, sans-serif;
+}
+
+main {
+
+	background-color: lightsteelblue;
+}
+
+#home_page {
+
+}
+
+#kick_page {
+
+}
+
+#setup_page {
+
+}
+
+.meter {
+	border-bottom: 2px solid red;
+}
+
+.listing {
+	background-color: rgba(0,0,0,0.2);
+}
+
+.listing_page {	
+	padding: 0.3em;
+}
+
+.listing_page h2, p , img {
+	margin: 0;
+}
+
+.listing_page  p {
+	margin-bottom: .3em;
+}
