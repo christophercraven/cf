@@ -1,78 +1,129 @@
 /*
-CrowdFinger Mobile Applet
+Crowdfinger Mobile Applet
 Copyright 2014 Christopher Craven
 
-CrowdFinger sends AJAX requests to the CrowdFinger server and populates the list view with campaigns
+Crowdfinger sends AJAX requests to the server and populates the list view with campaigns
 */
 // on document ready
 $(function() {
 	$.ajaxPrefilter( "json script", function( options ) {
 	  options.crossDomain = true;
 	});
+
+	var startup = $('#home_page a[href="#detail_page"]');
 	var ks_popular = localStorage.getItem("ks_popular");
 	if ( ks_popular === null) {
-		refresh();	
+		ks_popular = refresh();	
+		if( ks_popular == undefined ) {
+
+			setTimeout(function() {
+				location.reload();
+				}, 3000 );
+			//console.log(ks_popular);
+		} 
 	} else {
 		ks_popular = JSON.parse(ks_popular);
 	}
-
-	$('a[href="#detail_page"]').replaceWith(
-		make_list()
-	);
-	console.log( ks_popular.projects );
 	
+	var campaigns = ks_popular.query.results.json.projects;
+	var listings = make_list( campaigns );
+	
+	if ( "Getting Data" == startup.text() ) {
+		startup.replaceWith( listings );
+	} else {
+		$('#home_page main').append( listings );
+	}
+	
+	// on click, open campaign detail page
 	$('a[href="#detail_page"]').click(function() {
-		get_detail();
+		get_detail( campaigns, $(this)[0].id );
+		
+		$('#watch').click(function() {
+			var key = $(this)[0].dataset.json;
+			var id = $(this)[0].dataset.id;
+			appendToStorage('cf_watch', id, campaigns[key]);
+		});	
 	});	
+	// on click, save campaign to top of list
+
+	
+
 	
 }); // end of document ready
 /****************
    functions
 *****************/
+function appendToStorage(name, id, data){
+    var oldlist = localStorage.getItem(name);
+    if	( oldlist === null ) {
+		var newlist = [];
+		newlist.push(data);
+		newlist = JSON.stringify(newlist);
+	} else {
+				//console.log(oldlist);
+		oldlist = JSON.parse(oldlist);
+		$.each(oldlist, function( key, value ) {
+			if ( id == oldlist[key].id ) {
+				console.log( "match found in old list" );
+				oldlist.splice(key,1);
+				return false;
+			}
+		}); //end loop
+		//console.log(oldlist);
+		oldlist.push(data);
+		newlist = JSON.stringify(oldlist) ;
+	}
+    localStorage.setItem(name, newlist);
+}
+
+// refresh the data 
 function refresh() {
-	//$.getJSON("http://localhost:4730/", function(resp) {
-	ks_popular = $.getJSON("https://www.kickstarter.com/discover/popular?format=json", function(resp) {
-			localStorage.setItem('ks_popular', JSON.stringify(resp));
-			//var retrievedObject = localStorage.getItem('ks_popular');
-			//return retrievedObject;
-		});
+	var url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20json%20where%20url%3D'https%3A%2F%2Fwww.kickstarter.com%2Fdiscover%2Fpopular%3Fformat%3Djson'%20&format=json&callback=";
+ 	$.getJSON(url, function(resp) {
+		localStorage.setItem('ks_popular', JSON.stringify(resp));
+		return localStorage.getItem("ks_popular");
+		
+	}); 
 }
 // makes a list of campaign buttons with brief stats
-function make_list() {
+function make_list( campaigns ) {
 	var camp_btn = '';
-	$.each( ks_popular.projects, function( key, value ) {
-		camp_btn +=  '<div class="ui-corner-all listing">'+ 
-		ks_popular.projects[key].name + 
-		" : " + 
-		ks_popular.projects[key].category.name +
+	$.each( campaigns, function( key, value ) {
+		camp_btn +=  '<div class="ui-corner-all listing">'+
+		'<p>'+ 
+		campaigns[key].name + 
+		" &nbsp; <span class='darker smaller'>" + 
+		campaigns[key].category.name +
+		'</span></p>'+ 
 		'<a href="#detail_page" id="'+ 
-		ks_popular.projects[key].id +
+		campaigns[key].id +
 		'" data-role="button" data-transition="slide" data-icon="carat-r" data-iconpos="right" class="ui-link ui-btn ui-icon-carat-r ui-btn-icon-right ui-shadow ui-corner-all" role="button">'+
 		meter(
-			percent( ks_popular.projects[key].goal, ks_popular.projects[key].pledged )
+			percent( campaigns[key].goal, campaigns[key].pledged )
 		) +
 		'</a>'+'</div>' ;
 	});
 	return camp_btn;
 }
 // gets details of campaign and assembles the view
-function get_detail() {
-	var id = $(this)[0].id;
-	$.each( ks_popular.projects, function( key, value ) {
-		if ( id == ks_popular.projects[key].id ) {
-			console.log(id);
+function get_detail( campaigns, id ) {
+			
+	$.each( campaigns, function( key, value ) {
+		if ( id == campaigns[key].id ) {
+			// console.log(id);
 			$('#detail').html(
-				'<span>'+ ks_popular.projects[key].category.name +'</span><br>'+
-				'<img src="'+ ks_popular.projects[key].photo.small +'">'+
-				'<h2>'+ ks_popular.projects[key].name +'</h2>'+
-				'<p>'+ ks_popular.projects[key].blurb +'</p>'+
-				'<span>Goal: '+ ks_popular.projects[key].goal +'</span>'+
-				'&nbsp;<span>Pledged: '+ ks_popular.projects[key].pledged +'</span>'
+				'<span class="darker smaller">'+ campaigns[key].category.name +'</span><br>'+
+				'<img src="'+ campaigns[key].photo.small +'">'+
+				'<h2>'+ campaigns[key].name +'</h2>'+
+				'<p>'+ campaigns[key].blurb +'</p>'+
+				'<span class="darker">Goal: '+ campaigns[key].goal.formatMoney(0) +'</span>'+
+				'&nbsp;&nbsp;<span>Pledged: '+ campaigns[key].pledged.formatMoney(0) +'</span>'+
+				'<a href="#home_page" id="watch" data-json="'+ key +'" data-id="'+ id +'" data-role="button" data-icon="eye" data-iconpos="right" class="ui-link ui-btn ui-icon-eye" role="button">Watch</a>'
 				);
-			return false;
+				//localStorage.setItem(id, JSON.stringify());
+			return false; // stops the loop
 		}
-		
-	});
+	}); 
 }
 // calculates percentage of the goal met
 function percent( goal, pledged ) {
@@ -90,3 +141,14 @@ function meter( percent ) {
 		'%; border-bottom: 2px solid '+ color +'"></div>';
 
 }
+// formats money with commas. c = precision, d = decimal, t = thousand. Thanks to Patrick Desjardins
+String.prototype.formatMoney = function(c, d, t){
+var n = this, 
+    c = isNaN(c = Math.abs(c)) ? 2 : c, 
+    d = d == undefined ? "." : d, 
+    t = t == undefined ? "," : t, 
+    s = n < 0 ? "-" : "", 
+    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+    j = (j = i.length) > 3 ? j % 3 : 0;
+   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+ }

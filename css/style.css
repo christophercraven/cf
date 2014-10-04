@@ -10,7 +10,16 @@ main {
 
 }
 
+#home_page p {
+	padding: 0 .3em 0 .3em;
+}
+
 #kick_page {
+
+}
+
+#loader {
+	display: none;
 
 }
 
@@ -18,8 +27,8 @@ main {
 
 }
 
-.meter {
-	border-bottom: 2px solid red;
+.darker {
+	color: rgba(255,255,255,0.5);
 }
 
 .listing {
@@ -36,4 +45,12 @@ main {
 
 .listing_page  p {
 	margin-bottom: .3em;
+}
+
+.meter {
+	border-bottom: 2px solid red;
+}
+
+.smaller {
+	font-size: smaller;	
 }
