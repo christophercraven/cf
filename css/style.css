@@ -1,9 +1,22 @@
 body {
 	font: 100% Calibri, Helvetica, Arial, sans-serif;
+	width:100%;
+	height:100%;
 }
 
 main {
 
+}
+
+header h1:before {
+	content:url('../images/cf_24.png');
+	position: relative;
+	top: 5px;
+	left: -3px;
+}
+
+#about_page p{
+	padding: 1em;
 }
 
 #home_page {
@@ -31,19 +44,58 @@ main {
 	color: rgba(255,255,255,0.5);
 }
 
-.listing {
-	background-color: rgba(255,255,255,0.2);
+img.grid {
+	width: 100%;
+	margin-top: 1px;
+
 }
 
-.listing_page {	
+.ui-content {
+	padding: 0 !important;
+}
+
+.ui-corner-bottom {
+    //Bottom left CSS
+    -webkit-border-bottom-left-radius: .3125em;    
+    border-bottom-left-radius: .3125em;
+    //Bottom right css
+    -webkit-border-bottom-right-radius: .3125em;   
+    border-bottom-right-radius: .3125em;
+}
+
+.ui-corner-top {
+    //Bottom left CSS
+    -webkit-border-top-left-radius: .3125em;    
+    border-top-left-radius: .3125em;
+    //Bottom right css
+    -webkit-border-top-right-radius: .3125em;   
+    border-top-right-radius: .3125em;
+}
+
+.listing, .i-project-card {
+	background-color: rgba(255,255,255,0.2);
+	//border: 1px solid rgba(255,255,255,0.5);
+
+	//margin: 0 2px 2px 0;
+	
+}
+.campaign-info, .i-content {
+	//display: none;
+	overflow: hidden;
+}
+.campaign-name, .campaign-category, .campaign-percent {
+	white-space: nowrap;
+}
+
+#detail.listing_page {	
 	padding: 0.3em;
 }
 
-.listing_page h2, p , img {
+#detail.listing_page h2, p , img {
 	margin: 0;
 }
 
-.listing_page  p {
+#detail.listing_page  p {
 	margin-bottom: .3em;
 }
 
@@ -53,4 +105,8 @@ main {
 
 .smaller {
 	font-size: smaller;	
+}
+
+.watching {
+	background-color: rgba(070,130,180,0.7);
 }

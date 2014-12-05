@@ -20,4 +20,6 @@
       This allows your app to load assets from all *.phongap.com domains
     -->
     <access origin="*" />
+	<!-- Include Eddy Verbruggen social plugin -->
+	<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
 </widget>

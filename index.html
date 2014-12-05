@@ -11,8 +11,8 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="jquery/jquery.mobile-1.4.4.min.css" />
 	<script src="jquery/jquery-1.11.1.min.js"></script>
-	<script src="jquery/jquery.mobile-1.4.4.min.js"></script>
 	<script src="js/client.js"></script>
+	<script src="jquery/jquery.mobile-1.4.4.min.js"></script>
 	<link href="css/style.css" rel="stylesheet">
 
 </head>
@@ -25,18 +25,31 @@ The home page displays a list of crowdfunding campaigns with brief stats.
 <div data-role="page" id="home_page" data-theme="b">
 	<header data-role="header">
 		<h1>Crowdfinger</h1>
+		<a href="#setup_page" data-rel="dialog" data-role="button" data-icon="gear" data-iconpos="right">Setup</a>
 	</header>
 	<main data-role="content">
 	
 	<a href="#detail_page" data-role="button" data-transition="slide" data-icon="carat-r" data-iconpos="right">Getting Data</a>
-	<div id="loader">
 	
-	</div>
 	</main>
 	
-	<footer data-role="footer">
-	
-	<a href="#setup_page" data-rel="dialog" data-role="button">Setup</a>
+	<footer data-role="footer" data-position="fixed" >
+		<form id="footer-search" class="ui-field-contain" style="display:none" >
+			<div style="display:inline-block;padding-left:5%">
+				<label for="search-basic" class="ui-hidden-accessible">Search:</label>
+				<input type="search" name="search" id="search-basic" value="" placeholder="Search:" >
+				<input type="submit" data-inline="true" data-icon="check" data-iconpos="left" value="Go" >
+			</div>
+		</form>
+
+		<div data-role="controlgroup" data-type="horizontal">
+			<a href="#" data-role="button" data-icon="refresh" data-iconpos="notext">Refresh</a>
+			<a href="#setup_page" data-rel="dialog" data-role="button" data-icon="gear" data-iconpos="notext">Setup</a>
+			<a href="#" data-role="button" data-icon="bars" data-iconpos="notext">Grid</a>
+			<a href="#search_page" data-rel="dialog" data-role="button" data-icon="search" data-iconpos="notext">Search</a>
+		</div>
+
+
 	</footer>
 </div>
 <!--
@@ -54,7 +67,7 @@ The detail page displays more complete stats about a specific campaign and links
 		<div id="detail" class="ui-corner-all listing listing_page">Error: No Data</div>
 	</main>
 	
-	<footer data-role="footer">
+	<footer data-role="footer" data-position="fixed">
 	
 	</footer>
 </div>
@@ -67,9 +80,27 @@ The setup page displays a list filtering options to customize the campaign list.
 -->
 <div data-role="page" data-theme="b" id="setup_page">
 	<header data-role="header">
-		<h1>Crowdfinger Setup</h1>
+		<h1>Select One</h1>
 	</header>
 	<main data-role="content">
+
+<ul>					
+<li>Art</li>
+<li>Comics</li>
+<li>Crafts</li>
+<li>Dance</li>
+<li>Design</li>
+<li>Fashion</li>
+<li>Film & Video</li>
+<li>Food</li>
+<li>Games</li>
+<li>Journalism</li>
+<li>Music</li>
+<li>Photography</li>
+<li>Publishing</li>
+<li>Technology</li>
+<li>Theater</li>
+</ul>
 
 
 	<a href="#about_page" data-rel="dialog" data-role="button">About</a>
@@ -102,6 +133,32 @@ The about page displays meta information.
 </div>
 <!--
 END about page
+-->
+<!--
+BEGIN search page
+The about page displays meta information.
+-->
+<div data-role="page" data-theme="b" id="search_page">
+	<header data-role="header">
+		<h1>Crowdfinger Search</h1>
+	</header>
+	<main data-role="content">
+		<form id="dialog_search"  >
+			<div style="padding:1em;">
+				<label for="search_form" class="ui-hidden-accessible">Search:</label>
+				<input type="search" name="search" id="search_form" value="" placeholder="Search titles:" >
+				<input type="submit" data-icon="check" data-iconpos="left" value="Go" >
+			</div>
+		</form>
+
+	</main>
+	
+	<footer data-role="footer">
+	
+	</footer>
+</div>
+<!--
+END search page
 -->
 </body>
 </html>
