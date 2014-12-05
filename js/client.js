@@ -253,7 +253,7 @@ function getAjax( source, category ) {
 	// AJAX
 	if ( 'igg_popular' == store ) {
 		$.get(url, function(resp) {
-			$.mobile.loading('show');
+			//$.mobile.loading('show');
 			var xml = new XMLSerializer().serializeToString(resp);
 
 			localStorage.setItem(store, xml);

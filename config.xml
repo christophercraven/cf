@@ -23,4 +23,5 @@
     <access origin="*" />
 	<!-- Include Eddy Verbruggen social plugin -->
 	<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
+	<icon src="icon.png" />
 </widget>
