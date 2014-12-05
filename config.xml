@@ -6,10 +6,11 @@
 
     <!-- versionCode is optional and Android only -->
 
-    <name>Crowdfinger</name>
+    <name>Crowdfinger Pro</name>
 
     <description>
       Check your favorite crowdfunding campaigns. 
+	  Pro version features picture grid, more details, social sharing, search, and an additional data source.
     </description>
 
     <author href="https://datavisions.wordpress.com" email="christopherccraven@students.abtech.edu">
